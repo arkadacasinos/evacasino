@@ -12,6 +12,33 @@
   <script src="tailwindcss.js"></script>
   <link href="css2.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    const SITE_CONFIG = {
+        domain: "evacasino6.vercel.app",
+        name: "Eva Casino",
+        description: "Ева казино официальный сайт – играть в Eva casino онлайн сегодня"
+    };
+    const canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    canonical.href = "https://" + SITE_CONFIG.domain + window.location.pathname;
+    document.head.appendChild(canonical);
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": SITE_CONFIG.name,
+        "alternateName": "Ева Казино",
+        "url": "https://" + SITE_CONFIG.domain,
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://" + SITE_CONFIG.domain + "/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    };
+    const schemaScript = document.createElement('script');
+    schemaScript.type = "application/ld+json";
+    schemaScript.text = JSON.stringify(schemaData);
+    document.head.appendChild(schemaScript);
+</script>
 </head>
 <body class="bg-gray-1000 text-gray-50 font-inter antialiased">
   <header class="sticky top-0 flex h-18 w-full flex-col header-blur p-4 -mb-10" style="z-index:81">
