@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "target": "eva-app", 
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
