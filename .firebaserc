@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "fenix-casino"
+  },
+  "targets": {
+    "fenix-casino": {
+      "hosting": {
+        "eva-app": [
+          "eva-casino-best" 
+        ]
+      }
+    }
+  }
+}
