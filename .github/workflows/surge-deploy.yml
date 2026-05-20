@@ -3,13 +3,29 @@ on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Debug and Deploy
         run: |
-          # Мы добавим рандомное число к домену, чтобы 100% не было повторов
-          # Проверь, чтобы секреты назывались SURGE_LOGIN и SURGE_TOKEN
-          npx surge . evacasino-${{ github.run_number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_LOGIN }}
+          # 1. Проверяем, видит ли робот логин
+          echo "Attempting to login as: ${{ secrets.SURGE_LOGIN }}"
+          
+          # 2. Попробуем проверить токен (выведет только часть для безопасности)
+          echo "Token check: $(echo ${{ secrets.SURGE_TOKEN }} | cut -c 1-5)..."
+
+          # 3. Деплой на ГАРАНТИРОВАННО уникальный домен
+          # Используем имя-секунды, такой точно будет свободен
+          DOMAIN="fenix-fugu-${{ github.run_id }}.surge.sh"
+          echo "Target domain: $DOMAIN"
+          
+          npx surge . $DOMAIN --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_LOGIN }}
