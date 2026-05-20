@@ -15,17 +15,18 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Debug and Deploy
+      - name: Clean and Deploy
+        env:
+          # Это официальный способ передачи токена
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
         run: |
-          # 1. Проверяем, видит ли робот логин
-          echo "Attempting to login as: ${{ secrets.SURGE_LOGIN }}"
+          # 1. Удаляем файл CNAME, если он вдруг есть (он может все портить)
+          rm -f CNAME
           
-          # 2. Попробуем проверить токен (выведет только часть для безопасности)
-          echo "Token check: $(echo ${{ secrets.SURGE_TOKEN }} | cut -c 1-5)..."
-
-          # 3. Деплой на ГАРАНТИРОВАННО уникальный домен
-          # Используем имя-секунды, такой точно будет свободен
-          DOMAIN="fenix-fugu-${{ github.run_id }}.surge.sh"
-          echo "Target domain: $DOMAIN"
+          # 2. Деплоим на СУПЕР-РАНДОМНЫЙ домен
+          # Используем дату в секундах, такого точно ни у кого нет
+          RANDOM_DOMAIN="fenix-fugu-$(date +%s).surge.sh"
+          echo "Deploying to: $RANDOM_DOMAIN"
           
-          npx surge . $DOMAIN --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_LOGIN }}
+          npx surge . $RANDOM_DOMAIN
