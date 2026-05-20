@@ -22,7 +22,7 @@ jobs:
       run: npm install -g surge
 
     - name: Deploy to Surge
-      run: surge . evacasino.surge.sh
+      run: surge . evacasino-arkada-test.surge.sh
       env:
         SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
